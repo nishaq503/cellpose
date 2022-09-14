@@ -1,14 +1,17 @@
-import os, sys
-os.environ["MKLDNN_VERBOSE"]="1"
+import os
+
 import numpy as np
-import time
+
+os.environ["MKLDNN_VERBOSE"] = "1"
 
 try:
     import mxnet as mx
+
     x = mx.sym.Variable('x')
-    MXNET_ENABLED = True 
+    MXNET_ENABLED = True
 except:
     MXNET_ENABLED = False
+
 
 def test_mkl():
     if MXNET_ENABLED:
@@ -29,7 +32,7 @@ def test_mkl():
         o = exe.outputs[0]
         t = o.asnumpy()
 
+
 if __name__ == '__main__':
     if MXNET_ENABLED:
         test_mkl()
-

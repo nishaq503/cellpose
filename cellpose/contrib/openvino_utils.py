@@ -6,6 +6,7 @@ from openvino.runtime import Core
 
 ie = Core()
 
+
 def to_openvino(model):
     if isinstance(model.net, OpenVINOModel):
         return model
@@ -20,7 +21,6 @@ class OpenVINOModel(object):
         self._base_model = model
         self._nets = {}
         self._model_id = "default"
-
 
     def _init_model(self, inp):
         if self._model_id in self._nets:
@@ -40,7 +40,6 @@ class OpenVINOModel(object):
 
         return exec_net
 
-
     def __call__(self, inp):
         exec_net = self._init_model(inp)
 
@@ -49,7 +48,7 @@ class OpenVINOModel(object):
             outputs = []
             styles = []
             for i in range(batch_size):
-                outs = exec_net.infer({"input": inp[i : i + 1]})
+                outs = exec_net.infer({"input": inp[i: i + 1]})
                 outs = {out.get_any_name(): value for out, value in outs.items()}
                 outputs.append(outs["output"])
                 styles.append(outs["style"])
@@ -62,11 +61,9 @@ class OpenVINOModel(object):
             outs = {out.get_any_name(): value for out, value in outs.items()}
             return torch.tensor(outs["output"]), torch.tensor(outs["style"])
 
-
     def load_model(self, path, cpu):
         self._model_id = path
         return self
-
 
     def eval(self):
         pass

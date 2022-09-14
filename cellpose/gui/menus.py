@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QAction
+
 from . import io
-from .. import models
 from ..io import save_server
+
 
 def mainmenu(parent):
     main_menu = parent.menuBar()
@@ -15,7 +16,7 @@ def mainmenu(parent):
     parent.autoloadMasks = QAction("Autoload masks from _masks.tif file", parent, checkable=True)
     parent.autoloadMasks.setChecked(False)
     file_menu.addAction(parent.autoloadMasks)
-    
+
     parent.loadMasks = QAction("Load &masks (*.tif, *.png, *.jpg)", parent)
     parent.loadMasks.setShortcut("Ctrl+M")
     parent.loadMasks.triggered.connect(lambda: io._load_masks(parent))
@@ -44,11 +45,12 @@ def mainmenu(parent):
     parent.saveOutlines.triggered.connect(lambda: io._save_outlines(parent))
     file_menu.addAction(parent.saveOutlines)
     parent.saveOutlines.setEnabled(False)
-    
+
     parent.saveServer = QAction("Send manually labelled data to server", parent)
     parent.saveServer.triggered.connect(lambda: save_server(parent))
     file_menu.addAction(parent.saveServer)
     parent.saveServer.setEnabled(False)
+
 
 def editmenu(parent):
     main_menu = parent.menuBar()
@@ -81,18 +83,19 @@ def editmenu(parent):
     parent.mergecell.setEnabled(False)
     edit_menu.addAction(parent.mergecell)
 
+
 def modelmenu(parent):
     main_menu = parent.menuBar()
     io._init_model_list(parent)
     model_menu = main_menu.addMenu("&Models")
     parent.addmodel = QAction('Add custom torch model to GUI', parent)
-    #parent.addmodel.setShortcut("Ctrl+A")
+    # parent.addmodel.setShortcut("Ctrl+A")
     parent.addmodel.triggered.connect(parent.add_model)
     parent.addmodel.setEnabled(True)
     model_menu.addAction(parent.addmodel)
 
     parent.removemodel = QAction('Remove selected custom model from GUI', parent)
-    #parent.removemodel.setShortcut("Ctrl+R")
+    # parent.removemodel.setShortcut("Ctrl+R")
     parent.removemodel.triggered.connect(parent.remove_model)
     parent.removemodel.setEnabled(True)
     model_menu.addAction(parent.removemodel)
@@ -107,6 +110,7 @@ def modelmenu(parent):
     openTrainHelp.triggered.connect(parent.train_help_window)
     model_menu.addAction(openTrainHelp)
 
+
 def helpmenu(parent):
     main_menu = parent.menuBar()
     help_menu = main_menu.addMenu("&Help")
@@ -115,7 +119,7 @@ def helpmenu(parent):
     openHelp.setShortcut("Ctrl+H")
     openHelp.triggered.connect(parent.help_window)
     help_menu.addAction(openHelp)
-    
+
     openGUI = QAction("&GUI layout", parent)
     openGUI.setShortcut("Ctrl+G")
     openGUI.triggered.connect(parent.gui_window)
